@@ -1,0 +1,65 @@
+
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scientia"
+version = "0.0.1"
+description = "This module is needed to learn new knownledge"
+requires-python = ">=3.13"
+authors = [
+    {name = "Michael", email = "onisoris@yandex.ru"},
+]
+maintainers = [
+    {name = "Michael", email = "onisoris@yandex.ru"}
+]
+dependencies = [
+    "numpy>=1.22.0"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Build Tools",
+    "Programming Language :: Python :: 3.13"
+]
+license = "CUSTOM"
+license-files = ["LICENSE*", "COMMERCIAL_LICENSE.md"]
+readme = {file = "README.md", content-type = "text/markdown"}
+
+[project.urls]
+Homepage = "https://github.com/OnisOris/scientia"
+Documentation = "https://onisoris.github.io/scientia"
+Repository = "https://github.com/OnisOris/scientia.git"
+Issues = "https://github.com/OnisOris/scientia/issues"
+
+[project.scripts]
+start = "scientia.scripts.main.py"
+
+[dependency-groups]
+dev = [
+    "furo>=2024.8.6",
+    "pre-commit>=4.2.0",
+    "ruff>=0.9.10",
+    "sphinx>=8.1.3",
+    "uv>=0.6.5",
+]
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.format]
+quote-style = "double"
+docstring-code-format = true
+
+[tool.ruff.lint]
+extend-select = [
+  "I",      # isort
+  "D205",   # pydocstyle
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.setuptools]
+include-package-data = true
