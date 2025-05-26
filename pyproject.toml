@@ -14,16 +14,32 @@ authors = [
 maintainers = [
     {name = "Michael", email = "onisoris@yandex.ru"}
 ]
+
 dependencies = [
-    "numpy>=1.22.0"
+  "SQLAlchemy>=1.4",
+  "fastapi>=0.95",
+  "uvicorn>=0.22",
+  "aiogram>=3.0",
+  "python-dotenv>=1.0",
+  "httpx>=0.28.1",
+  "psycopg2>=2.9.10",
+  "asyncpg",
+  "httpx",
+  "uvicorn",
+  "python-dotenv",
+  "python-jose[cryptography]",
+  "aiosmtplib",
+  "aiohttp-socks==0.8.4",
+  "python-socks==2.7.1",
 ]
+
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Build Tools",
     "Programming Language :: Python :: 3.13"
 ]
-license = "CUSTOM"
+
 license-files = ["LICENSE*", "COMMERCIAL_LICENSE.md"]
 readme = {file = "README.md", content-type = "text/markdown"}
 
@@ -34,7 +50,9 @@ Repository = "https://github.com/OnisOris/scientia.git"
 Issues = "https://github.com/OnisOris/scientia/issues"
 
 [project.scripts]
-start = "scientia.scripts.main.py"
+scientia-api = "app.api.main:main"
+scientia-bot = "app.bot.main:main"
+
 
 [dependency-groups]
 dev = [
