@@ -50,8 +50,8 @@ Repository = "https://github.com/OnisOris/scientia.git"
 Issues = "https://github.com/OnisOris/scientia/issues"
 
 [project.scripts]
-scientia-api = "app.api.main:main"
-scientia-bot = "app.bot.main:main"
+scientia-app = "app.main:main"
+scientia-bot = "app.bot.main:start_bot"
 
 
 [dependency-groups]
