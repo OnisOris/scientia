@@ -35,6 +35,7 @@ REAL_PATH="$REAL_HOME/.local/bin:$PATH"
 NAME_APP="scientia" 
 INSTALL_DIR="$REAL_HOME/scientia"
 VENV_DIR="$INSTALL_DIR/.venv"
+DOCKER_COMPOSE_FILE="https://raw.githubusercontent.com/OnisOris/scientia/refs/heads/main/deployment/docker-compose.yaml"
 
 
 echo "Пользователь: $REAL_USER"
@@ -42,8 +43,9 @@ echo "Домашняя директория: $REAL_HOME"
 
 read -p "Загружать в папку проекта docker-compose файл и запустить контейнер c postgress?\ 0 - да \другое - нет " CHOICE
 if [[ "$CHOICE" == "0" ]]; then
-    echo "Устанавливаем контейнер с postgress"
-    sudo -u "$REAL_USER" env PATH="$REAL_PATH" wget https://raw.githubusercontent.com/OnisOris/scientia/refs/heads/main/deployment/docker-compose.yaml -O $INSTALL_DIR && docker compose up -d
+    echo "Устанавливаем контейнер с postgres"
+    sudo -u "$REAL_USER" env PATH="$REAL_PATH" bash -c \
+      "wget $DOCKER_COMPOSE_FILE -O $INSTALL_DIR/docker-compose.yaml && cd $INSTALL_DIR && docker compose up -d"
 fi
 
 
