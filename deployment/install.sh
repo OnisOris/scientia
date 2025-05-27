@@ -74,8 +74,8 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=$VENV_DIR/bin/python -m scientia-app
-WorkingDirectory=$INSTALL_DIR
+ExecStart=$VENV_DIR/bin/scientia-app
+EnvironmentFile=$INSTALL_DIR/.env
 Restart=always
 RestartSec=5
 StandardOutput=journal
