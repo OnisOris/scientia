@@ -19,7 +19,7 @@ def run_bot():
     start_bot()
 
 
-if __name__ == "__main__":
+def main():
     asyncio.run(init_models())
     multiprocessing.set_start_method("spawn")
 
@@ -31,3 +31,7 @@ if __name__ == "__main__":
 
     api_process.join()
     bot_process.join()
+
+
+if __name__ == "__main__":
+    main()
