@@ -13,6 +13,8 @@ from aiogram.types import Message, CallbackQuery, Update
 from fastapi import HTTPException
 from app.db import Session
 from app.repositories.user_repository import UserRepository
+from app.services.prompt_generator import PromptService
+
 
 os.environ["GRPC_DNS_RESOLVER"] = "native"
 
@@ -79,6 +81,16 @@ async def cmd_quiz(message: Message):
         return
     card = resp.json()
     await message.answer(f"Слово: <b>{card['word']}</b>")
+
+
+@dp.message(Command("deepseek"))
+async def cmd_deepseek(message: Message):
+    prompt_service = PromptService()
+    analysis = await prompt_service.get_ai_analysis(
+        "d7c55690-e047-43a1-ac0c-b09df76d2733"
+    )
+    print(analysis)
+    message.answer(analysis)
 
 
 @dp.message(Command("add"))
