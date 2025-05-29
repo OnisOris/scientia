@@ -102,6 +102,8 @@ SMTP_USER=your-email@gmail.com
 SMTP_PASSWORD=your-app-password
 SECRET_KEY="your-super-secret-key"
 ALGORITHM="HS256"
+DEEPSEEK_API_URL="https://api.deepseek.com/v1/chat/completions"
+DEEPSEEK_API_KEY="your-api-key-here"
 EOF
 
 echo "Перезагружаем systemd"
