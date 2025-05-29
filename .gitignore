@@ -166,3 +166,5 @@ uv.lock
 __pycache__
 *.egg-info
 scientia.egg-info
+
+exp/
