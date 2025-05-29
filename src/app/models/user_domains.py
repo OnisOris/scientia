@@ -5,6 +5,7 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     Integer,
+    Text,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
@@ -18,7 +19,7 @@ class UserDomain(Base):
     user_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("public.users.id", ondelete="CASCADE"), primary_key=True
     )
-    domain_id: Mapped[int] = mapped_column(  # Исправляем аннотацию
+    domain_id: Mapped[int] = mapped_column(
         ForeignKey("public.domains.id", ondelete="CASCADE"), primary_key=True
     )
     level = Column(Integer, nullable=False)
@@ -29,3 +30,4 @@ class UserDomain(Base):
     )
     domain = relationship("Domain", back_populates="user_domains")
     user: Mapped["User"] = relationship(back_populates="user_domains")
+    analysis = Column(Text, nullable=True)
