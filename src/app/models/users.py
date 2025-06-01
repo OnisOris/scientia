@@ -31,3 +31,10 @@ class User(Base):
     )
     confirmed: Mapped[bool] = mapped_column(default=False)
     is_premium: Mapped[bool] = mapped_column(default=False)
+    knowledge = relationship(
+        "UserKnowledge", back_populates="user", cascade="all, delete"
+    )
+    retention_logs = relationship(
+        "RetentionLog", back_populates="user", cascade="all, delete"
+    )
+    lambda_coef: Mapped[float] = mapped_column(default=0.5)

@@ -1,28 +1,62 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:16.2-alpine
-    container_name: scientia_db_docker
-    environment:
-      POSTGRES_USER: sciuser
-      POSTGRES_PASSWORD: sci_password
-      POSTGRES_DB: scientia_db
+  api:
+    build: .
     ports:
-      - "5434:5432"
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=scientia
+      - DB_USER=postgres
+      - DB_PASS=password
+      - SECRET_KEY=your_secret_key
+      - SMTP_HOST=smtp.example.com
+      - SMTP_PORT=587
+      - SMTP_USER=user@example.com
+      - SMTP_PASSWORD=email_password
+    depends_on:
+      - db
+    volumes:
+      - ./alembic.ini:/app/alembic.ini
+      - ./alembic:/app/alembic
+
+  bot:
+    build: .
+    command: python -m app.bot.main
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=scientia
+      - DB_USER=postgres
+      - DB_PASS=password
+      - TG_BOT_TOKEN=your_bot_token
+      - API_URL=http://api:8000
+      - DEEPSEEK_API_URL=https://api.deepseek.com/v1/chat/completions
+      - DEEPSEEK_API_KEY=your_deepseek_key
+    depends_on:
+      - db
+      - api
+
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: scientia
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U sciuser -d scientia_db"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - postgres-net
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
 
 volumes:
   postgres_data:
-
-networks:
-  postgres-net:
-    driver: bridge

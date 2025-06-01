@@ -21,3 +21,11 @@ class UserProfile(Base):
     last_name: Mapped[str] = mapped_column(nullable=True)
 
     user: Mapped["User"] = relationship(back_populates="profile")
+
+    domain_id: Mapped[int] = mapped_column(
+        ForeignKey("public.domains.id"), nullable=True
+    )
+
+    domain = relationship(
+        "Domain", back_populates="user_profiles", lazy="joined"
+    )

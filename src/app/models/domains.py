@@ -20,3 +20,5 @@ class Domain(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     user_domains = relationship("UserDomain", back_populates="domain")
+    concepts = relationship("Concept", back_populates="domain")
+    user_profiles = relationship("UserProfile", back_populates="domain")
