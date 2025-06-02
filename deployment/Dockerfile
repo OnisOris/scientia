@@ -35,4 +35,5 @@ RUN chmod +x /wait-for-db.sh
 
 EXPOSE 8000
 
-CMD ["/wait-for-db.sh", "db", "5432", "scientia-app"]
+CMD ["/wait-for-db.sh", "db", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
