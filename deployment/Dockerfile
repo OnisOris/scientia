@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir uv
 
 WORKDIR /app
 
-COPY pyproject.toml uv.lock ./
+COPY pyproject.toml ./
 
 # Установка зависимостей с помощью uv
 RUN uv pip install --system --no-cache -e .
