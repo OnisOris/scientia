@@ -6,7 +6,10 @@ RUN apt-get update && \
     libpq-dev \
     curl \
     netcat-openbsd \
+    postgresql-client \
     && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y postgresql-client
+
 
 # Установка uv
 RUN pip install --no-cache-dir uv
