@@ -1,15 +1,11 @@
-#!/bin/sh
+#!/bin/s#!/bin/sh
 
 set -e
 
-host="$1"
-shift
-
-until PGPASSWORD=$DB_PASS psql -h "$host" -U "$DB_USER" -d "$DB_NAME" -c '\q'; do
-  >&2 echo "PostgreSQL is unavailable - sleeping"
+echo "Waiting for PostgreSQL..."
+while ! nc -z db 5432; do
   sleep 1
 done
 
->&2 echo "PostgreSQL is up - executing command"
-exec "$@"
-
+echo "PostgreSQL is up - starting application"
+exec scientia-app
