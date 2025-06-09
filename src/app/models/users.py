@@ -18,11 +18,9 @@ class User(Base):
     telegram_id: Mapped[int] = mapped_column(
         BigInteger, unique=True, nullable=True
     )
-
     profile: Mapped["UserProfile"] = relationship(
         back_populates="user", cascade="all, delete-orphan"
     )
-
     auth_methods: Mapped[list[AuthMethod]] = relationship(
         back_populates="user", cascade="all, delete"
     )

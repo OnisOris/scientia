@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, String, BigInteger
+from sqlalchemy import BigInteger, Column, DateTime, String
 from sqlalchemy.dialects.postgresql import UUID
 
 from app.db.base import Base
@@ -16,6 +16,4 @@ class RegistrationRequest(Base):
     first_name = Column(String(100), nullable=True)
     last_name = Column(String(100), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
-    status = Column(
-        String(20), default="pending"
-    )
+    status = Column(String(20), default="pending")
