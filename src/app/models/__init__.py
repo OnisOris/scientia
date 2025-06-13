@@ -1,9 +1,4 @@
-from .users import User
-from .user_profile import UserProfile
-from .domains import Domain
-from .user_domains import UserDomain
-from .auth_methods import AuthMethod
-from .concepts import Concept
-from .user_knowledge import UserKnowledge
-from .retention_log import RetentionLog
+# from .auth_methods import AuthMethod
 from .registration_requests import RegistrationRequest
+from .user_profile import UserProfile
+from .users import User

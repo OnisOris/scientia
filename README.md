@@ -23,5 +23,23 @@ sudo ./scientia_install.sh
 ```
 
 
+# Dcoker commands
+
+Delete volumes:
+```shell
+docker compose down --volumes --remove-orphans
+```
+
+Recreate docker with new settings:
+
+```shell
+docker compose up -d --force-recreate
+```
+Force container removing
+```shell
+docker rm -f <id>
+```
+
+
 
 

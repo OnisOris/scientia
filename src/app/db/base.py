@@ -12,10 +12,10 @@ class Base(AsyncAttrs, DeclarativeBase):
 from app.models import (
     users,
     user_profile,
-    auth_methods,
-    domains,
-    user_domains,
-    concepts,
-    user_knowledge,
-    retention_log,
+    # auth_methods,
+    # domains,
+    # user_domains,
+    # concepts,
+    # user_knowledge,
+    # retention_log,
 )

@@ -5,6 +5,8 @@ from app.models.registration_requests import RegistrationRequest
 
 from .base import GenericRepository
 
+# Нужно для запроса на регистрацию пользователей (подтверждается админами)
+
 
 class RegistrationRequestRepository(GenericRepository):
     def __init__(self, session: AsyncSession):
