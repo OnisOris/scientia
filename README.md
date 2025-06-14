@@ -40,6 +40,12 @@ Force container removing
 docker rm -f <id>
 ```
 
+Drop tables from postgresql
+
+```shell
+docker exec -it scientia-db-1  psql -U sciuser -d scientia_db -c "DROP TABLE IF EXISTS users, domains, user_domains, auth_methods, user_profiles, retention_logs, concepts, user_knowledge, registration_requests CASCADE"
+```
+
 
 
 

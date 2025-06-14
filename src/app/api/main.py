@@ -28,7 +28,7 @@ from app.repositories.user_repository import UserRepository
 
 class RegisterRequest(BaseModel):
     telegram_id: int
-    email: str
+    # email: str
 
 
 # class UpdateConceptRequest(BaseModel):
@@ -48,16 +48,16 @@ load_dotenv()
 
 app = FastAPI(title="Scientia API")
 
+#
+# class AddRequest(BaseModel):
+#     telegram_id: int
+#     text: str
 
-class AddRequest(BaseModel):
-    telegram_id: int
-    text: str
 
-
-class CardResponse(BaseModel):
-    concept_id: int
-    word: str
-    definition: str
+# class CardResponse(BaseModel):
+#     concept_id: int
+#     word: str
+#     definition: str
 
 
 # class KnowledgeItemResponse(BaseModel):
@@ -82,11 +82,11 @@ class CardResponse(BaseModel):
 #     retention_levels: Dict[str, float]
 #     next_reviews: Dict[str, datetime]
 
-
-class ReviewRequest(BaseModel):
-    user: int
-    concept_id: int
-    quality: float
+#
+# class ReviewRequest(BaseModel):
+#     user: int
+#     concept_id: int
+#     quality: float
 
 
 async def get_repos():
@@ -121,21 +121,24 @@ async def sync_all(repos=Depends(get_repos)):
 #     return {"status": "updated"}
 #
 
-
-@app.get("/concept/search")
-async def search_concept(name: str, repos=Depends(get_repos)):
-    concept_repo = repos["concepts"]
-    concept = await concept_repo.get_first(name=name)
-
-    if not concept:
-        raise HTTPException(404, "Concept not found")
-
-    return {
-        "id": concept.id,
-        "name": concept.name,
-        "definition": concept.description,
-    }
-
+#
+# @app.get("/concept/search")
+# async def search_concept(name: str, repos=Depends(get_repos)):
+#     """
+#     В данный момент не нужно
+#     """
+#     concept_repo = repos["concepts"]
+#     concept = await concept_repo.get_first(name=name)
+#
+#     if not concept:
+#         raise HTTPException(404, "Concept not found")
+#
+#     return {
+#         "id": concept.id,
+#         "name": concept.name,
+#         "definition": concept.description,
+#     }
+#
 
 # @app.post("/add")
 # async def add_to_buffer(req: AddRequest, repos=Depends(get_repos)):

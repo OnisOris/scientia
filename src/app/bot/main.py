@@ -96,9 +96,6 @@ class AuthMiddleware(BaseMiddleware):
             return await handler(event, data)
 
 
-dp.message.middleware(AuthMiddleware())
-
-
 @dp.message(Command("sync"))
 async def cmd_sync(message: Message):
     await message.answer("Начинаю синхронизацию…")
@@ -108,9 +105,12 @@ async def cmd_sync(message: Message):
 
 
 #
-# @dp.message(Command("quiz"))
-# async def cmd_quiz(message: Message):
-#     async with httpx.AsyncClient() as client:
+@dp.message(Command("quiz"))
+async def cmd_quiz(message: Message):
+    await message.answer("cmd_quiz() пока не реализована")
+    # async with httpx.AsyncClient() as client:
+
+
 #         try:
 #             resp = await client.get(
 #                 f"{API_URL}/next_card?user={message.from_user.id}"
@@ -215,6 +215,9 @@ async def cmd_grant_premium(message: Message):
 
 @dp.message(Command("register"))
 async def cmd_register(message: Message):
+    """
+    Процедура регистрации
+    """
     if message.from_user.id in ADMIN_IDS:
         async with Session() as session:
             user_repo = UserRepository(session)
@@ -230,7 +233,7 @@ async def cmd_register(message: Message):
             user = await user_repo.add(
                 User(
                     telegram_id=message.from_user.id,
-                    email=f"user_{uuid.uuid4()}@example.com",
+                    # email=f"user_{uuid.uuid4()}@example.com",
                     hashed_password="default",
                     confirmed=True,
                     is_premium=True,
@@ -324,6 +327,9 @@ async def cmd_register(message: Message):
 
 @dp.callback_query(F.data.startswith("approve_"))
 async def approve_registration(callback: CallbackQuery):
+    """
+    Подтверждение регистрации
+    """
     telegram_id = int(callback.data.split("_")[1])
 
     async with Session() as session:
@@ -349,7 +355,7 @@ async def approve_registration(callback: CallbackQuery):
         user = await user_repo.add(
             User(
                 telegram_id=telegram_id,
-                email=f"user_{telegram_id}@example.com",
+                # email=f"user_{telegram_id}@example.com",
                 hashed_password="default",
                 confirmed=True,
             )
@@ -386,6 +392,9 @@ async def approve_registration(callback: CallbackQuery):
 
 @dp.callback_query(F.data.startswith("reject_"))
 async def reject_registration(callback: CallbackQuery):
+    """
+    Отклонение регистрации
+    """
     telegram_id = int(callback.data.split("_")[1])
 
     async with Session() as session:
@@ -679,9 +688,9 @@ async def cmd_start(message: Message):
         types.InlineKeyboardButton(
             text="Добавить текст", callback_data="add_text"
         ),
-        types.InlineKeyboardButton(
-            text="Повторить карточки", callback_data="quiz"
-        ),
+        # types.InlineKeyboardButton(
+        #     text="Повторить карточки", callback_data="quiz"
+        # ),
         types.InlineKeyboardButton(
             text="Анализ знаний", callback_data="analysis"
         ),
@@ -701,26 +710,31 @@ async def process_concept_definition(message: Message):
         concept_name = parts[0].strip()
         definition = parts[1].strip()
 
-        async with httpx.AsyncClient() as client:
-            resp = await client.get(
-                f"{API_URL}/concept/search?name={concept_name}"
-            )
+        await message.answer(
+            f"concept_name - {concept_name} \ndefinition - {definition}"
+        )
 
-            if resp.status_code != 200:
-                await message.answer("Концепт не найден")
-                return
-
-            concept = resp.json()
-
-            resp = await client.post(
-                f"{API_URL}/concept/update",
-                json={"concept_id": concept["id"], "definition": definition},
-            )
-
-            if resp.status_code == 200:
-                await message.answer("✅ Определение обновлено!")
-            else:
-                await message.answer("❌ Ошибка при обновлении")
+        #
+        # async with httpx.AsyncClient() as client:
+        #     resp = await client.get(
+        #         f"{API_URL}/concept/search?name={concept_name}"
+        #     )
+        #
+        #     if resp.status_code != 200:
+        #         await message.answer("Концепт не найден")
+        #         return
+        #
+        #     concept = resp.json()
+        #
+        #     resp = await client.post(
+        #         f"{API_URL}/concept/update",
+        #         json={"concept_id": concept["id"], "definition": definition},
+        #     )
+        #
+        #     if resp.status_code == 200:
+        #         await message.answer("✅ Определение обновлено!")
+        #     else:
+        #         await message.answer("❌ Ошибка при обновлении")
 
     except Exception as e:
         logger.error(f"Error updating concept: {str(e)}")
@@ -757,7 +771,7 @@ async def handle_add_text(message: Message):
 
 @dp.message(F.text == "Повторить карточки")
 async def handle_quiz(message: Message):
-    await cmd_quiz(message)
+    await message.answer("Пока не реализовано")
 
 
 # @dp.message(F.text == "Анализ знаний")

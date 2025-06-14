@@ -21,6 +21,7 @@ class User(Base):
         back_populates="user", cascade="all, delete-orphan"
     )
     is_premium: Mapped[bool] = mapped_column(default=False)
+    confirmed: Mapped[bool] = mapped_column(default=False)
     # knowledge = relationship(
     #     "UserKnowledge", back_populates="user", cascade="all, delete"
     # )
