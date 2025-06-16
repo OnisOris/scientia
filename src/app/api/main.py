@@ -28,12 +28,6 @@ from app.repositories.user_repository import UserRepository
 
 class RegisterRequest(BaseModel):
     telegram_id: int
-    # email: str
-
-
-# class UpdateConceptRequest(BaseModel):
-#     concept_id: int
-#     definition: str
 
 
 admin_header = APIKeyHeader(name="X-Admin-Token")
@@ -230,9 +224,6 @@ async def register_user(req: RegisterRequest, repos=Depends(get_repos)):
             # lambda_coef=0.5,
         )
     )
-
-    # token = create_confirmation_token(str(new_user.id))
-    # await send_confirmation_email(req.email, token)
 
     return {"detail": "You're registered"}
 

@@ -39,6 +39,7 @@ dependencies = [
   "langchain-openai",
   "langchain-experimental>=0.3.4",
   "langgraph>=0.4.8",
+  "pydantic-settings>=2.9.1",
 ]
 
 classifiers = [

@@ -18,7 +18,8 @@ from aiogram.types import (
     InlineKeyboardButton,
     BotCommand,
 )
-from dotenv import load_dotenv
+
+# from dotenv import load_dotenv
 from fastapi import HTTPException
 from sqlalchemy.orm import Mapped
 
@@ -39,23 +40,23 @@ from app.repositories.profile_repository import ProfileRepository
 # from app.services.text_processor import TextProcessorService
 from app.models.registration_requests import RegistrationRequest
 from app.models.user_profile import UserProfile
-# from datetime import datetime
-# from app.services.nlp_loader import load_nlp_model
 
-# nlp = load_nlp_model()
+from app.settings import settings
 
 logger = logging.getLogger(__name__)
 
-
-os.environ["GRPC_DNS_RESOLVER"] = "native"
-load_dotenv()
-API_URL = os.getenv("API_URL")
-TOKEN = os.getenv("TG_BOT_TOKEN")
-ADMIN_IDS = list(map(int, os.getenv("ADMIN_IDS", "").split(",")))
+os.environ["GRPC_DNS_RESOLVER"] = settings.GRPC_DNS_RESOLVER
+# load_dotenv()
+# API_URL = os.getenv("API_URL")
+# TOKEN = os.getenv("TG_BOT_TOKEN")
+# ADMIN_IDS = list(map(int, os.getenv("ADMIN_IDS", "").split(",")))
+# API_URL = settings.API_URL
+# TOKEN = settings.TG_BOT_TOKEN
+ADMIN_IDS = settings.ADMIN_IDS
 
 session = AiohttpSession()
 bot = Bot(
-    token=TOKEN,
+    token=settings.TG_BOT_TOKEN,
     default=DefaultBotProperties(parse_mode="HTML"),
     session=session,
 )
@@ -100,7 +101,7 @@ class AuthMiddleware(BaseMiddleware):
 async def cmd_sync(message: Message):
     await message.answer("Начинаю синхронизацию…")
     async with httpx.AsyncClient() as client:
-        resp = await client.post(f"{API_URL}/sync")
+        resp = await client.post(f"{settings.API_URL}/sync")
     await message.answer(resp.json().get("detail", "Готово"))
 
 
@@ -170,7 +171,7 @@ async def cmd_quiz(message: Message):
 
 @dp.message(Command("admin"))
 async def cmd_admin(message: Message):
-    if message.from_user.id not in ADMIN_IDS:
+    if message.from_user.id not in settings.ADMIN_IDS:
         return
 
     text = (
@@ -187,7 +188,7 @@ async def cmd_admin(message: Message):
 
 @dp.message(Command("grant_premium"))
 async def cmd_grant_premium(message: Message):
-    if message.from_user.id not in ADMIN_IDS:
+    if message.from_user.id not in settings.ADMIN_IDS:
         return
 
     try:
@@ -204,7 +205,7 @@ async def cmd_grant_premium(message: Message):
     async with httpx.AsyncClient() as client:
         try:
             resp = await client.post(
-                f"{API_URL}/admin/grant-premium",
+                f"{settings.API_URL}/admin/grant-premium",
                 json={"user_id": str(user_id)},
             )
             resp.raise_for_status()
@@ -218,7 +219,7 @@ async def cmd_register(message: Message):
     """
     Процедура регистрации
     """
-    if message.from_user.id in ADMIN_IDS:
+    if message.from_user.id in settings.ADMIN_IDS:
         async with Session() as session:
             user_repo = UserRepository(session)
             existing_user = await user_repo.get_by_telegram_id(
@@ -283,7 +284,7 @@ async def cmd_register(message: Message):
         await request_repo.add(new_request)
 
         sent_to_admins = False
-        for admin_id in ADMIN_IDS:
+        for admin_id in settings.ADMIN_IDS:
             try:
                 await bot.send_message(
                     admin_id,
@@ -809,7 +810,7 @@ def start_bot():
 
         await bot.set_my_commands(commands)
 
-        for admin_id in ADMIN_IDS:
+        for admin_id in settings.ADMIN_IDS:
             try:
                 await bot.set_my_commands(
                     commands + admin_commands,
