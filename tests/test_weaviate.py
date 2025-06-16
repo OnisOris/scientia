@@ -4,7 +4,9 @@ from vector_db.client import WeaviateClient
 
 os.environ["GRPC_DNS_RESOLVER"] = "native"
 client = WeaviateClient()
-client.ensure_collection(class_name="Test2")
+client.ensure_collection(class_name="Test3")
+
+client.insert_object("Test", "csvdbevsefvw")
 
 client.close()
 
