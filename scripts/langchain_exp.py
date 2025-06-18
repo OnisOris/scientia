@@ -1,23 +1,23 @@
 # Убедитесь, что установлены все зависимости:
 # pip install langgraph langchain-openai langchain-experimental python-dotenv
 
-from dotenv import load_dotenv
-import os
-from typing import TypedDict, Annotated, Sequence
 import operator
+import os
+from typing import Annotated, Sequence, TypedDict
+
+from dotenv import load_dotenv
 from langchain_core.messages import BaseMessage, HumanMessage
-from langchain_core.agents import AgentAction, AgentFinish
 
 # Загружаем переменные окружения
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Импорт современных компонентов LangChain
-from langchain_openai import ChatOpenAI
-from langchain_experimental.tools.python.tool import PythonREPLTool
-from langgraph.graph import StateGraph, END
-from langgraph.prebuilt import ToolNode
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_experimental.tools.python.tool import PythonREPLTool
+from langchain_openai import ChatOpenAI
+from langgraph.graph import END, StateGraph
+from langgraph.prebuilt import ToolNode
 
 
 # Определяем состояние агента

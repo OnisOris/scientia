@@ -1,15 +1,16 @@
-import os
+from typing import Any, Dict, List, Optional
+from uuid import UUID
+
 import weaviate
-from weaviate.classes.init import Auth
-from app.settings import settings
 from weaviate.classes.config import (
     Configure,
-    DataType,
     Property,
     VectorDistances,
 )
+from weaviate.classes.init import Auth
 from weaviate.util import generate_uuid5
-from typing import Optional, List, Dict, Any
+
+from app.settings import settings
 
 
 class WeaviateClient:
@@ -41,7 +42,7 @@ class WeaviateClient:
         collection_name: str,
         properties: dict,
         vector: Optional[List[float]] = None,
-    ) -> str:
+    ) -> UUID:
         """Вставляет объект в коллекцию и возвращает его UUID"""
         collection = self.client.collections.get(collection_name)
         uuid = generate_uuid5(properties)

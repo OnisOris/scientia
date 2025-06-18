@@ -1,8 +1,9 @@
+import operator
 import os
 import time
+from typing import Annotated, Sequence, TypedDict
+
 from dotenv import load_dotenv
-from typing import TypedDict, Annotated, Sequence
-import operator
 
 # Загружаем переменные окружения
 load_dotenv()
@@ -15,12 +16,12 @@ if not DEEPSEEK_API_KEY:
     exit(1)
 
 # Импорт компонентов LangGraph
-from langgraph.graph import StateGraph, END
 from langchain_core.messages import BaseMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
-from langchain_experimental.tools.python.tool import PythonREPLTool
 from langchain_core.runnables import RunnablePassthrough
+from langchain_experimental.tools.python.tool import PythonREPLTool
+from langchain_openai import ChatOpenAI
+from langgraph.graph import END, StateGraph
 
 # Инициализация DeepSeek через OpenAI-совместимый интерфейс
 llm = ChatOpenAI(

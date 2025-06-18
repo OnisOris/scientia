@@ -1,10 +1,10 @@
 import logging
 import os
 import uuid
+
 # from datetime import datetime, timedelta
 # from uuid import UUID
 # from typing import List, Dict
-
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException  # , Query
 from fastapi.security import APIKeyHeader
@@ -16,10 +16,9 @@ from app.db import Session
 # from app.models.user_domains import UserDomain
 # from app.models.user_profile import UserProfile
 from app.models.users import User
-
 from app.repositories.profile_repository import ProfileRepository
-
 from app.repositories.user_repository import UserRepository
+
 # from app.services.auth import (
 #     create_confirmation_token,
 #     verify_confirmation_token,

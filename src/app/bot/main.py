@@ -7,40 +7,35 @@ import httpx
 # import spacy
 from aiogram import BaseMiddleware, Bot, Dispatcher, F, types
 from aiogram.client.default import DefaultBotProperties
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.filters import Command
 from aiogram.types import (
     CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
     Message,
     Update,
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
-    BotCommand,
 )
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 # from dotenv import load_dotenv
-from fastapi import HTTPException
-from sqlalchemy.orm import Mapped
-
 from app.db import Session
-from app.models.users import User
-from app.repositories.user_repository import UserRepository
-
-# from app.repositories.domain_repository import DomainRepository
-from app.repositories.registration_request_repository import (
-    RegistrationRequestRepository,
-)
-
-# from app.repositories.concept_repository import ConceptRepository
-from app.repositories.profile_repository import ProfileRepository
 
 # from app.services.email import send_confirmation_email
 # from app.services.prompt_generator import PromptService
 # from app.services.text_processor import TextProcessorService
 from app.models.registration_requests import RegistrationRequest
 from app.models.user_profile import UserProfile
+from app.models.users import User
 
+# from app.repositories.concept_repository import ConceptRepository
+from app.repositories.profile_repository import ProfileRepository
+
+# from app.repositories.domain_repository import DomainRepository
+from app.repositories.registration_request_repository import (
+    RegistrationRequestRepository,
+)
+from app.repositories.user_repository import UserRepository
 from app.settings import settings
 
 logger = logging.getLogger(__name__)
@@ -241,7 +236,7 @@ async def cmd_register(message: Message):
             )
         else:
             logger.critical(
-                f"Failed to send registration request to any admin!"
+                "Failed to send registration request to any admin!"
             )
             await message.answer(
                 "⚠️ Не удалось отправить заявку администраторам. "

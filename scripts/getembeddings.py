@@ -1,13 +1,14 @@
 import os
+
+import matplotlib.pyplot as plt
 import numpy as np
 import requests
-from dotenv import load_dotenv
-from sklearn.metrics.pairwise import cosine_similarity
 import weaviate
-from weaviate.auth import AuthApiKey
-from weaviate.classes.config import Configure, DataType, Property, DistanceType
-import matplotlib.pyplot as plt
+from dotenv import load_dotenv
 from sklearn.decomposition import PCA
+from sklearn.metrics.pairwise import cosine_similarity
+from weaviate.auth import AuthApiKey
+from weaviate.classes.config import Configure, DataType, DistanceType, Property
 
 # Загрузка переменных окружения
 load_dotenv()

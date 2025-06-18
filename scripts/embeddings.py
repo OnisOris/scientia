@@ -1,9 +1,10 @@
 import os
+
 import numpy as np
 import requests
+import weaviate
 from dotenv import load_dotenv
 from sklearn.metrics.pairwise import cosine_similarity
-import weaviate
 from weaviate.auth import AuthApiKey
 from weaviate.classes.config import Configure, DataType, Property
 

@@ -6,7 +6,15 @@ os.environ["GRPC_DNS_RESOLVER"] = "native"
 client = WeaviateClient()
 client.ensure_collection(class_name="Test3")
 
-client.insert_object("Test", "csvdbevsefvw")
+props = {
+    "content": "Пример текста 2",
+    "user_id": "user_123",
+    "source": "telegram",
+    "created_at": "2025-06-17T12:34:56Z",
+}
+
+print(client.insert_object("Testk", props, [3, 45, 533, 2443, 32546, 134]))
+
 
 client.close()
 

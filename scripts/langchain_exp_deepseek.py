@@ -1,11 +1,10 @@
 import os
 import time
+
 from dotenv import load_dotenv
 from langchain.agents import AgentType, initialize_agent
 from langchain_experimental.tools.python.tool import PythonREPLTool
 from langchain_openai import ChatOpenAI
-from langchain_core.agents import AgentFinish
-import json
 
 # Загружаем переменные окружения
 load_dotenv()
