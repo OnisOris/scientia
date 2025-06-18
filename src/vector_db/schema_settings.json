@@ -1,0 +1,36 @@
+{
+  "classes": [
+    {
+      "class": "TextFragment",
+      "description": "Небольшой фрагмент текста, связанный с конкретным пользователем",
+      "properties": [
+        {
+          "name": "content",
+          "dataType": ["text"],
+          "description": "Содержимое фрагмента"
+        },
+        {
+          "name": "user_id",
+          "dataType": ["string"],
+          "description": "Идентификатор пользователя"
+        },
+        {
+          "name": "source",
+          "dataType": ["string"],
+          "description": "Источник (например, telegram, email)"
+        },
+        {
+          "name": "created_at",
+          "dataType": ["date"],
+          "description": "Дата создания в ISO-формате"
+        }
+      ],
+      "vectorizer": "none",
+      "vectorIndexConfig": {
+        "distance": "cosine",
+        "efConstruction": 128,
+        "maxConnections": 64
+      }
+    }
+  ]
+}
