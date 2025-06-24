@@ -12,12 +12,11 @@ from pydantic import BaseModel
 
 from app.db import Session
 
-# from app.models.domains import Domain
-# from app.models.user_domains import UserDomain
-# from app.models.user_profile import UserProfile
 from app.models.users import User
 from app.repositories.profile_repository import ProfileRepository
 from app.repositories.user_repository import UserRepository
+from app.services.embeddings.openai_provider import OpenAIEmbeddingsProvider
+from app.services.weaviate.client import WeaviateClient
 
 # from app.services.auth import (
 #     create_confirmation_token,
@@ -27,6 +26,13 @@ from app.repositories.user_repository import UserRepository
 
 class RegisterRequest(BaseModel):
     telegram_id: int
+
+
+async def get_services():
+    weaviate_client = WeaviateClient()
+    await weaviate_client.connect()
+    embeddings = OpenAIEmbeddingsProvider()
+    yield {"weaviate": weaviate_client, "embeddings": embeddings}
 
 
 admin_header = APIKeyHeader(name="X-Admin-Token")
@@ -98,6 +104,40 @@ async def get_repos():
 @app.post("/sync")
 async def sync_all(repos=Depends(get_repos)):
     return {"detail": "Synchronization complete"}
+
+
+@app.post("/qa")
+async def qa_endpoint(query: str, services=Depends(get_services)):
+    qa_chain = await QAChainFactory.create_retrieval_chain(
+        services["weaviate"], llm_model="gpt-4"
+    )
+    result = qa_chain.run({"query": query})
+    return {"answer": result["result"]}
+
+
+@app.post("/graph/query")
+async def graph_query(question: str, services=Depends(get_services)):
+    # Предполагаем, что ранее построили NetworkX граф и LLM-цепочки
+    graph = services.get("nx_graph")  # например, хранится в памяти или БД
+    chain = GraphChainFactory.create_graph_qa(
+        services["entity_chain"], services["qa_chain"], graph
+    )
+    res = chain.run({"input": question})
+    return {"answer": res["output"]}
+
+
+@app.post("/quiz/generate")
+async def generate_quiz(context: str):
+    question = await generate_question(context)
+    return {"question": question}
+
+
+@app.post("/quiz/evaluate")
+async def evaluate_quiz(data: dict):
+    ok = await evaluate_answer(
+        data["question"], data["user_answer"], data["correct_answer"]
+    )
+    return {"correct": ok}
 
 
 # @app.post("/concept/update")

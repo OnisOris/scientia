@@ -5,6 +5,8 @@ import uvicorn
 
 from app.bot.main import start_bot
 from app.db.init_db import create_tables
+from app.services.embeddings.openai_provider import OpenAIEmbeddingsProvider
+from app.services.weaviate.client import WeaviateClient
 
 
 async def init_models():
@@ -17,6 +19,13 @@ def run_api():
 
 def run_bot():
     start_bot()
+
+
+async def get_services():
+    weaviate_client = WeaviateClient()
+    await weaviate_client.connect()
+    embeddings = OpenAIEmbeddingsProvider()
+    yield {"weaviate": weaviate_client, "embeddings": embeddings}
 
 
 def main():
